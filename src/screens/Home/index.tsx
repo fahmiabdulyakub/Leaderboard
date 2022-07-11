@@ -1,15 +1,19 @@
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import styles from './styles';
-import {ICArrowRight} from 'assets';
-import {Button} from 'components';
+import {useState} from 'react';
+import {Header} from 'components';
 
 const Home = () => {
+  const [value, setValue] = useState('');
+
+  const onSearch = (text: string) => {
+    setValue(text);
+  };
+
   return (
     <View style={styles.container}>
-      {<ICArrowRight />}
-      <Text style={styles.text}>Home</Text>
-      <Button text="Search" />
+      <Header value={value} onChangeText={onSearch} />
     </View>
   );
 };
