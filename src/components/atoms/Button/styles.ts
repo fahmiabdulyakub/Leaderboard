@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: hp(1.8),
-    fontFamily: Fonts.Inter,
+    fontFamily: Fonts.PoppinsMedium,
     color: Colors.black,
   },
 });
