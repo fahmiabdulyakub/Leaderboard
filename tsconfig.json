@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+      "allowJs": true,
+      "skipLibCheck": true,
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "isolatedModules": true,
+      "jsx": "react-native",
+      "lib": ["es2017"],
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "noEmit": true,
+      "strict": true,
+      "target": "esnext",
+      "module": "commonjs",
+      "pretty": true,
+      "baseUrl": ".",
+      "paths": {
+        "*": ["src/*"],
+        "@components/*": ["src/components/*"],
+        "@themes/*": ["src/themes/*"],
+        "@screens/*": ["src/screens/*"],
+        "@constants/*": ["src/constants/*"],
+        "@assets/*": ["src/assets/*"],
+      }
+    },
+    "include": [
+      "./src/**/*",
+      "index.js",
+      "index.ts",
+  ],
+    "exclude": [
+      "node_modules", 
+      "babel.config.js",
+      "metro.config.js",
+      "jest.config.js"
+    ]
+  }
