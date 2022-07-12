@@ -1,4 +1,6 @@
-export const DataUser = {
+import {DataUserList} from '../screens/Home/types';
+
+export const DataUser: DataUserList = {
   '00D1LA8puAa1GINkVpfgC1TmO0m1': {
     bananas: 200,
     lastDayPlayed: '2018-11-22',
