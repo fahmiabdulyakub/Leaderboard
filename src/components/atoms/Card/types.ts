@@ -1,3 +1,5 @@
+import {DataUserType} from 'screens/Home/types';
 export interface PropsType {
-  text: string;
+  item: DataUserType;
+  rank: number;
 }

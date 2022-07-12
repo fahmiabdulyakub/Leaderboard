@@ -26,5 +26,6 @@ export default StyleSheet.create({
     fontSize: hp(1.8),
     fontFamily: Fonts.PoppinsMedium,
     color: Colors.black,
+    width: wp(23.5),
   },
 });
