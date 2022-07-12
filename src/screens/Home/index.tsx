@@ -9,21 +9,21 @@ import {DataUserList} from './types';
 import {useEffect} from 'react';
 
 const Home = () => {
-  const [value, setValue] = useState('');
+  const [search, setSearch] = useState('');
   const [userList, setUserList] = useState<DataUserList>({});
 
   useEffect(() => {
-    sorting();
+    sorting(DataUser);
   }, []);
 
-  const sorting = () => {
+  const sorting = (data: DataUserList) => {
     let sorted: DataUserList = {};
-    Object.keys(DataUser)
+    Object.keys(data)
       .sort(function (a: string, b: string) {
-        if (DataUser[a].bananas < DataUser[b].bananas) {
+        if (data[a].bananas < data[b].bananas) {
           return 1;
         }
-        if (DataUser[a].bananas > DataUser[b].bananas) {
+        if (data[a].bananas > data[b].bananas) {
           return -1;
         }
         return 0;
@@ -35,13 +35,29 @@ const Home = () => {
     setUserList(sorted);
   };
 
-  const onSearch = (text: string) => {
-    setValue(text);
+  const onType = (text: string) => {
+    setSearch(text);
+  };
+
+  const onSearch = () => {
+    const newData = Object.keys(DataUser).reduce(function (
+      item: DataUserList,
+      key,
+    ) {
+      const name = DataUser[key].name ? DataUser[key].name.toLowerCase() : '';
+      if (name.indexOf(search.toLowerCase()) > -1) {
+        item[key] = DataUser[key];
+      }
+      return item;
+    },
+    {});
+
+    sorting(newData);
   };
 
   return (
     <View style={styles.container}>
-      <Header value={value} onChangeText={onSearch} />
+      <Header value={search} onChangeText={onType} onPress={onSearch} />
       <View>
         <View style={styles.table}>
           <Text style={styles.textTable}>Name</Text>

@@ -6,7 +6,7 @@ import {ICSearch} from 'assets';
 import {PropsType} from './types';
 import {Colors} from 'themes';
 
-const Header = ({value, onChangeText}: PropsType) => {
+const Header = ({value, onChangeText, onPress}: PropsType) => {
   return (
     <View style={styles.container}>
       <Input
@@ -15,7 +15,7 @@ const Header = ({value, onChangeText}: PropsType) => {
         placeholder="Search User"
         icon={<ICSearch />}
       />
-      <Button text="Search" textColor={Colors.white} />
+      <Button text="Search" textColor={Colors.white} onPress={onPress} />
     </View>
   );
 };
