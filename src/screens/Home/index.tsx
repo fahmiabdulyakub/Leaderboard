@@ -6,16 +6,11 @@ import {Card, Header} from 'components';
 import {FlatList} from 'react-native';
 import {DataUser} from 'constants/DataUser';
 import {DataUserList} from './types';
-import {useEffect} from 'react';
 
 const Home = () => {
   const [search, setSearch] = useState('');
-  const [userList, setUserList] = useState<DataUserList>({});
-
-  useEffect(() => {
-    sorting(DataUser);
-  }, []);
-
+  const [userSort, setUserSort] = useState<DataUserList>(DataUser);
+  const [userSearchSort, setUserSearchSort] = useState<DataUserList>({});
   const sorting = (data: DataUserList) => {
     let sorted: DataUserList = {};
     Object.keys(data)
@@ -32,11 +27,12 @@ const Home = () => {
         sorted[key] = DataUser[key];
       });
 
-    setUserList(sorted);
+    return sorted;
   };
 
   const onType = (text: string) => {
     setSearch(text);
+    !text && setUserSort(DataUser);
   };
 
   const onSearch = () => {
@@ -44,7 +40,7 @@ const Home = () => {
       item: DataUserList,
       key,
     ) {
-      const name = DataUser[key].name ? DataUser[key].name.toLowerCase() : '';
+      const name = DataUser[key].name.toLowerCase();
       if (name.indexOf(search.toLowerCase()) > -1) {
         item[key] = DataUser[key];
       }
@@ -52,13 +48,33 @@ const Home = () => {
     },
     {});
 
-    sorting(newData);
+    const slicedDataUser = Object.fromEntries(
+      Object.entries(sorting(DataUser)).slice(0, 10),
+    );
+    const slicedUserSearchSort = Object.fromEntries(
+      Object.entries(sorting(newData)).slice(0, 1),
+    );
+    setUserSearchSort(slicedUserSearchSort);
+    setUserSort(slicedDataUser);
+  };
+
+  const renderItem = (item: string, index: number) => {
+    const key = Object.keys(userSearchSort)[0];
+    const isSearchedUser = key === item;
+    const isNotTopTen = !isSearchedUser && index === 9;
+    return (
+      <Card
+        item={DataUser[isNotTopTen ? key : item]}
+        rank={index + 1}
+        isSearchedUser={isNotTopTen ?? isSearchedUser}
+      />
+    );
   };
 
   return (
     <View style={styles.container}>
       <Header value={search} onChangeText={onType} onPress={onSearch} />
-      <View>
+      <View style={styles.container}>
         <View style={styles.table}>
           <Text style={styles.textTable}>Name</Text>
           <Text style={styles.textTable}>Rank</Text>
@@ -66,13 +82,10 @@ const Home = () => {
           <Text style={styles.textTable}>Searched User</Text>
         </View>
         <FlatList
-          onEndReachedThreshold={0}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
-          data={Object.keys(userList)}
-          renderItem={({item, index}) => (
-            <Card item={userList[item]} rank={index + 1} />
-          )}
+          data={Object.keys(userSort)}
+          renderItem={({item, index}) => renderItem(item, index)}
         />
       </View>
     </View>
