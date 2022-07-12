@@ -10,7 +10,7 @@ import {DataUserList} from './types';
 const Home = () => {
   const [search, setSearch] = useState('');
   const [userSort, setUserSort] = useState<DataUserList>(DataUser);
-  const [userSearchSort, setUserSearchSort] = useState<DataUserList>({});
+  const [keyUserSearch, setKeyUserSearch] = useState('');
   const sorting = (data: DataUserList) => {
     let sorted: DataUserList = {};
     Object.keys(data)
@@ -29,6 +29,7 @@ const Home = () => {
 
     return sorted;
   };
+  const DataUserSort = sorting(DataUser);
 
   const onType = (text: string) => {
     setSearch(text);
@@ -54,19 +55,21 @@ const Home = () => {
     const slicedUserSearchSort = Object.fromEntries(
       Object.entries(sorting(newData)).slice(0, 1),
     );
-    setUserSearchSort(slicedUserSearchSort);
+    setKeyUserSearch(Object.keys(slicedUserSearchSort)[0]);
     setUserSort(slicedDataUser);
   };
 
   const renderItem = (item: string, index: number) => {
-    const key = Object.keys(userSearchSort)[0];
-    const isSearchedUser = key === item;
-    const isNotTopTen = !isSearchedUser && index === 9;
+    const isNotTopTen =
+      Object.keys(DataUserSort).indexOf(keyUserSearch) > 9 && index === 9;
+    const isSearchedUser = isNotTopTen ? true : keyUserSearch === item;
+    const rank =
+      Object.keys(DataUserSort).indexOf(isNotTopTen ? keyUserSearch : item) + 1;
     return (
       <Card
-        item={DataUser[isNotTopTen ? key : item]}
-        rank={index + 1}
-        isSearchedUser={isNotTopTen ?? isSearchedUser}
+        item={DataUser[isNotTopTen ? keyUserSearch : item]}
+        rank={rank}
+        isSearchedUser={isSearchedUser}
       />
     );
   };
