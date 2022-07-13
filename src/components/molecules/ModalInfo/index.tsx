@@ -7,7 +7,7 @@ import {Button} from 'components/atoms';
 import {Colors} from 'themes';
 
 const ModalInfo = forwardRef<ModalInfoRefType, PropsType>(({text}, ref) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   useImperativeHandle(
     ref,
