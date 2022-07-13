@@ -1,8 +1,9 @@
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useRef} from 'react';
 import styles from './styles';
 import {useState} from 'react';
-import {Card, Header} from 'components';
+import {Card, Header, ModalInfo} from 'components';
+import Modal from 'react-native-modal';
 import {FlatList} from 'react-native';
 import {DataUser} from 'constants/DataUser';
 import {DataUserList} from './types';
@@ -11,6 +12,7 @@ const Home = () => {
   const [search, setSearch] = useState('');
   const [userSort, setUserSort] = useState<DataUserList>(DataUser);
   const [keyUserSearch, setKeyUserSearch] = useState('');
+  const modalInfoRef = useRef<Modal | null>(null);
   const sorting = (data: DataUserList) => {
     let sorted: DataUserList = {};
     Object.keys(data)
@@ -48,7 +50,11 @@ const Home = () => {
       return item;
     },
     {});
-
+    const isEmpty = Object.keys(newData).length === 0;
+    if (isEmpty) {
+      modalInfoRef.current?.open();
+      return;
+    }
     const slicedDataUser = Object.fromEntries(
       Object.entries(sorting(DataUser)).slice(0, 10),
     );
@@ -91,6 +97,10 @@ const Home = () => {
           renderItem={({item, index}) => renderItem(item, index)}
         />
       </View>
+      <ModalInfo
+        ref={modalInfoRef}
+        text="This user name does not exist! Please specify an existing user name!"
+      />
     </View>
   );
 };

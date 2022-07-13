@@ -1,2 +1,3 @@
 import Header from './Header';
-export {Header};
+import ModalInfo from './ModalInfo';
+export {Header, ModalInfo};
