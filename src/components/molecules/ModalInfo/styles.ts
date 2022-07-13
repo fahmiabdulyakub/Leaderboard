@@ -13,5 +13,6 @@ export default StyleSheet.create({
     fontSize: hp(1.8),
     fontFamily: Fonts.PoppinsMedium,
     color: Colors.black,
+    bottom: hp(1),
   },
 });

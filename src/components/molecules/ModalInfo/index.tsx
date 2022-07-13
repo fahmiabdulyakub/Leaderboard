@@ -3,6 +3,8 @@ import React, {forwardRef, useImperativeHandle, useState} from 'react';
 import Modal from 'react-native-modal';
 import styles from './styles';
 import {ModalInfoRefType, PropsType} from './types';
+import {Button} from 'components/atoms';
+import {Colors} from 'themes';
 
 const ModalInfo = forwardRef<ModalInfoRefType, PropsType>(({text}, ref) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -35,6 +37,7 @@ const ModalInfo = forwardRef<ModalInfoRefType, PropsType>(({text}, ref) => {
       animationOut="zoomOut">
       <View style={styles.container}>
         <Text style={styles.text}>{text}</Text>
+        <Button text="Close" onPress={onClose} textColor={Colors.white} />
       </View>
     </Modal>
   );
